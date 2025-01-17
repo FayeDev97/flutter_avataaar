@@ -164,11 +164,10 @@ class Avataaar implements AvataaarPart {
       }
 
       var unit8Picture = Uint8List.fromList(svgString.codeUnits);
-      //Produces a [Drawableroot] from a [Uint8List] of SVG byte data (assumes UTF8 encoding).
-      var svgDrawableRoot = await svg.fromSvgBytes(unit8Picture, 'svgToPngAvataaar');
 
       // Convert to ui.Picture
-      var picture = svgDrawableRoot.toPicture(size: Size(finalWidth, finalHeight));
+      var pictureInfo = await vg.loadPicture(SvgBytesLoader(unit8Picture), null);
+      var picture = pictureInfo.picture;
       // Convert to ui.Image. toImage() takes width and height as parameters
       // you need to find the best size to suit your needs and take into account the screen DPI
       var image = await picture.toImage(finalWidth.toInt(), finalHeight.toInt());
